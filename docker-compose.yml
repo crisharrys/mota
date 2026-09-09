@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  mota-site:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mota-ar-condicionado
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - ADMIN_SESSION_SECRET=mota-ultra-secret-key-2026-vps
+    volumes:
+      # Persistent storage for settings.json and leads.json
+      - ./data:/app/data

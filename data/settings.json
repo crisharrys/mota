@@ -1,0 +1,38 @@
+{
+  "companyName": "MOTA Serviços de Ar-Condicionado",
+  "legalName": "Romero Mota Climatização & Soluções Térmicas",
+  "ownerName": "Romero Mota",
+  "phone": "+55 11 94732-1510",
+  "whatsapp": "5511947321510",
+  "email": "contato@motaarcondicionado.com.br",
+  "address": "São Paulo - SP e Grande São Paulo",
+  "city": "São Paulo",
+  "state": "SP",
+  "operatingHours": "Segunda a Sábado: 08h às 19h",
+  "emergencySupport": "Plantão de Emergência 24h para Empresas e Contratos",
+  "coverageAreas": [
+    "São Paulo (Capital)",
+    "Zona Sul (Moema, Morumbi, Vila Mariana, Brooklin, Itaim Bibi)",
+    "Zona Oeste (Pinheiros, Perdizes, Lapa, Butantã, Vila Leopoldina)",
+    "Zona Leste (Tatuapé, Anália Franco, Mooca)",
+    "Zona Norte (Santana, Tucuruvi, Casa Verde)",
+    "Centro Expandido",
+    "Alphaville e Tamboré",
+    "Grande ABC (Santo André, São Bernardo, São Caetano)",
+    "Guarulhos e Osasco"
+  ],
+  "adminPasswordHash": "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",
+  "adminPasswordPlainDefault": "admin123",
+  "adminEmail": "romero@motaarcondicionado.com.br",
+  "smtp": {
+    "enabled": false,
+    "host": "smtp.gmail.com",
+    "port": 587,
+    "secure": false,
+    "user": "",
+    "pass": "",
+    "fromEmail": "notificacoes@motaarcondicionado.com.br",
+    "fromName": "MOTA Climatização",
+    "notifyEmail": "romeromota1510@gmail.com"
+  }
+}

@@ -1,0 +1,41 @@
+[
+  {
+    "name": "Carlos Teste",
+    "phone": "(11) 98765-4321",
+    "email": "carlos@teste.com",
+    "serviceType": "Instala��o de Ar-Condicionado",
+    "roomSize": "20m�",
+    "preferredTime": "Qualquer Horário",
+    "message": "Or�amento de teste automatizado",
+    "ip": "::1",
+    "id": "lead_1788913050135_z4erp",
+    "status": "new",
+    "createdAt": "2026-09-09T00:17:30.135Z"
+  },
+  {
+    "id": "lead-sample-1",
+    "name": "Dra. Carolina Mendes",
+    "phone": "(11) 98122-4455",
+    "email": "carolina.mendes@clinica.com.br",
+    "serviceType": "Instalação",
+    "roomSize": "35m² (Consultório)",
+    "environmentType": "Comercial",
+    "preferredTime": "Manhã",
+    "message": "Gostaria de um orçamento para instalar 2 aparelhos Split Inverter de 18.000 BTUs na minha clínica em Moema.",
+    "status": "new",
+    "createdAt": "2026-09-08T18:30:00.000Z"
+  },
+  {
+    "id": "lead-sample-2",
+    "name": "Condomínio Edifício Pauliceia",
+    "phone": "(11) 97654-3210",
+    "email": "sindico@pauliceia.com.br",
+    "serviceType": "Contrato PMOC & Manutenção",
+    "roomSize": "Prédio Comercial",
+    "environmentType": "Predial / Condomínio",
+    "preferredTime": "Comercial",
+    "message": "Precisamos de renovação do laudo PMOC da portaria, salão de festas e salas da administração.",
+    "status": "contacted",
+    "createdAt": "2026-09-08T14:15:00.000Z"
+  }
+]
