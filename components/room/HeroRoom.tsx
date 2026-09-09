@@ -139,11 +139,11 @@ export default function HeroRoom() {
     const cold = isAcOn ? Math.min(1, (pct - 0.68) / 0.18) : 0;
     document.documentElement.style.setProperty('--frost-cold', String(cold));
   }, [pct]);
-  const ink = night ? '#f2f7fc' : '#141b23';
-  const ink2 = night ? 'rgba(226,239,250,0.74)' : 'rgba(20,27,35,0.72)';
+  const ink = '#ffffff';
+  const ink2 = 'rgba(255, 255, 255, 0.85)';
 
   return (
-    <section ref={sectionRef} className="relative h-[360vh]">
+    <section ref={sectionRef} className="relative h-[180vh]">
       <div className="sticky top-0 h-[100svh] w-full overflow-hidden">
         {/* fallback pintado: é o que aparece antes do WebGL subir */}
         <div
@@ -177,15 +177,22 @@ export default function HeroRoom() {
         )}
 
 
-        {/* véu para o texto ganhar contraste sobre a cena */}
+        {/* véu cinematográfico para o texto branco ganhar leitura perfeita sobre a cena */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0"
           style={{
-            background: night
-              ? 'linear-gradient(to top, rgba(2,8,16,0.9) 0%, rgba(2,8,16,0.52) 18%, rgba(2,8,16,0.08) 38%, rgba(2,8,16,0) 54%)'
-              : 'linear-gradient(to top, rgba(253,250,245,0.9) 0%, rgba(253,250,245,0.5) 18%, rgba(253,250,245,0.06) 38%, rgba(253,250,245,0) 54%)',
-            transition: 'background 600ms linear',
+            background:
+              'linear-gradient(to top, rgba(2,8,16,0.92) 0%, rgba(2,8,16,0.58) 26%, rgba(2,8,16,0.12) 48%, rgba(2,8,16,0) 65%)',
+          }}
+        />
+        {/* vinheta superior para o topo persistente (logo e botões) */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 h-28"
+          style={{
+            background:
+              'linear-gradient(to bottom, rgba(2,8,16,0.65) 0%, rgba(2,8,16,0) 100%)',
           }}
         />
 
@@ -220,7 +227,7 @@ export default function HeroRoom() {
             style={{
               background: pct >= 0.68 ? 'rgba(56, 189, 248, 0.18)' : 'rgba(245, 158, 11, 0.16)',
               borderColor: pct >= 0.68 ? 'rgba(56, 189, 248, 0.45)' : 'rgba(245, 158, 11, 0.35)',
-              color: pct >= 0.68 ? '#38bdf8' : (night ? '#fbbf24' : '#b45309'),
+              color: pct >= 0.68 ? '#38bdf8' : '#fbbf24',
             }}
             title={pct >= 0.68 ? 'Clique para voltar ao dia / desligar ar' : 'Clique para ligar o ar condicionado'}
           >
@@ -269,19 +276,19 @@ export default function HeroRoom() {
               >
                 <span
                   className="mb-3 block text-[0.78rem] font-semibold tracking-[0.22em]"
-                  style={{ color: night ? '#7dd3fc' : '#b45309' }}
+                  style={{ color: '#38bdf8' }}
                 >
                   {s.hour}
                 </span>
                 <h1
-                  className="text-balance text-[2rem] font-bold leading-[1.06] tracking-[-0.03em] sm:text-[2.9rem] lg:text-[3.4rem]"
-                  style={{ color: ink, transition: 'color 600ms linear' }}
+                  className="text-balance text-[2rem] font-bold leading-[1.06] tracking-[-0.03em] sm:text-[2.9rem] lg:text-[3.4rem] drop-shadow-[0_2px_14px_rgba(0,0,0,0.7)]"
+                  style={{ color: '#ffffff' }}
                 >
                   {s.title}
                 </h1>
                 <p
-                  className="mt-4 max-w-[46ch] text-[0.95rem] leading-[1.6] sm:text-[1.05rem]"
-                  style={{ color: ink2, transition: 'color 600ms linear' }}
+                  className="mt-4 max-w-[46ch] text-[0.95rem] leading-[1.6] sm:text-[1.05rem] drop-shadow-[0_1px_8px_rgba(0,0,0,0.65)]"
+                  style={{ color: 'rgba(255, 255, 255, 0.88)' }}
                 >
                   {s.body}
                 </p>
@@ -294,22 +301,20 @@ export default function HeroRoom() {
             <div
               className="h-[3px] w-full max-w-[22rem] overflow-hidden rounded-full"
               style={{
-                background: night
-                  ? 'rgba(226,239,250,0.18)'
-                  : 'rgba(20,27,35,0.16)',
+                background: 'rgba(255, 255, 255, 0.25)',
               }}
             >
               <div
                 className="h-full rounded-full"
                 style={{
                   width: `${pct * 100}%`,
-                  background: night ? '#38bdf8' : '#d97706',
+                  background: '#38bdf8',
                 }}
               />
             </div>
             <span
-              className="whitespace-nowrap text-[0.72rem] tracking-[0.16em]"
-              style={{ color: ink2 }}
+              className="whitespace-nowrap text-[0.72rem] tracking-[0.16em] font-medium"
+              style={{ color: 'rgba(255, 255, 255, 0.78)' }}
             >
               {pct < 0.02 ? 'ROLE PARA ANOITECER' : `${Math.round(pct * 100)}%`}
             </span>
