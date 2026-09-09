@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { site, whatsappUrl } from '@/lib/site';
 import { Snowflake } from './Snowflake';
+import { Power, Sun, Snowflake as LucideSnowflake } from 'lucide-react';
 
 // Ambos só são baixados no cliente.
 const RoomCanvas = dynamic(() => import('./RoomCanvas'), { ssr: false });
@@ -208,43 +209,100 @@ export default function HeroRoom() {
             </span>
           </span>
 
-          {/* Controlador Interativo de Clima / Modo Ar Condicionado */}
-          <button
-            type="button"
-            onClick={() => {
-              const el = sectionRef.current;
-              if (!el) return;
-              if (pct < 0.68) {
-                // Ativar modo ar condicionado ligado (21h / noite climatizada)
-                const targetY = el.offsetTop + (el.offsetHeight - window.innerHeight) * 0.78;
-                window.scrollTo({ top: targetY, behavior: 'smooth' });
-              } else {
-                // Modo dia / desligar ar condicionado (15h)
-                window.scrollTo({ top: el.offsetTop, behavior: 'smooth' });
-              }
-            }}
-            className="flex items-center gap-2.5 rounded-full px-3.5 py-1.5 sm:px-4 sm:py-2 text-[0.74rem] sm:text-[0.82rem] font-semibold border backdrop-blur-md transition-all duration-300 hover:scale-105 shadow-md"
-            style={{
-              background: pct >= 0.68 ? 'rgba(56, 189, 248, 0.18)' : 'rgba(245, 158, 11, 0.16)',
-              borderColor: pct >= 0.68 ? 'rgba(56, 189, 248, 0.45)' : 'rgba(245, 158, 11, 0.35)',
-              color: pct >= 0.68 ? '#38bdf8' : '#fbbf24',
-            }}
-            title={pct >= 0.68 ? 'Clique para voltar ao dia / desligar ar' : 'Clique para ligar o ar condicionado'}
-          >
-            <span
-              className="h-2 w-2 rounded-full animate-pulse"
-              style={{
-                background: pct >= 0.68 ? '#38bdf8' : '#f59e0b',
-                boxShadow: pct >= 0.68 ? '0 0 8px #38bdf8' : '0 0 8px #f59e0b',
+          {/* Letreiro Digital de Temperatura & Botão de Ligar/Desligar */}
+          <div className="flex items-center gap-2 sm:gap-3 rounded-2xl bg-[#020b18]/85 border border-white/20 backdrop-blur-xl px-2.5 sm:px-4 py-1.5 sm:py-2 shadow-[0_8px_32px_rgba(0,0,0,0.6)]">
+            {/* Letreiro Digital */}
+            <div className="flex items-center gap-2 sm:gap-2.5 pr-1">
+              <div
+                className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-lg transition-colors duration-300"
+                style={{
+                  background: pct >= 0.68 ? 'rgba(56, 189, 248, 0.2)' : 'rgba(245, 158, 11, 0.2)',
+                  color: pct >= 0.68 ? '#38bdf8' : '#f59e0b',
+                }}
+              >
+                {pct >= 0.68 ? (
+                  <LucideSnowflake className="h-4 w-4 sm:h-4.5 sm:w-4.5 animate-pulse" />
+                ) : (
+                  <Sun className="h-4 w-4 sm:h-4.5 sm:w-4.5 animate-pulse" />
+                )}
+              </div>
+
+              <div className="flex flex-col">
+                <div className="flex items-baseline gap-1">
+                  <span
+                    className="font-mono text-base sm:text-xl font-black tracking-tight leading-none"
+                    style={{
+                      color: pct >= 0.68 ? '#38bdf8' : '#fbbf24',
+                      textShadow:
+                        pct >= 0.68
+                          ? '0 0 12px rgba(56,189,248,0.7)'
+                          : '0 0 12px rgba(251,191,36,0.7)',
+                    }}
+                  >
+                    {pct >= 0.68 ? '18°C' : '32°C'}
+                  </span>
+                  <span
+                    className="hidden sm:inline-block rounded px-1 text-[0.58rem] font-bold uppercase tracking-wider font-mono"
+                    style={{
+                      background: pct >= 0.68 ? 'rgba(56, 189, 248, 0.25)' : 'rgba(245, 158, 11, 0.25)',
+                      color: pct >= 0.68 ? '#7dd3fc' : '#fde047',
+                    }}
+                  >
+                    {pct >= 0.68 ? 'COOL' : 'HOT'}
+                  </span>
+                </div>
+                <span className="hidden md:inline-block text-[0.62rem] font-medium tracking-wide text-slate-300">
+                  {pct >= 0.68 ? 'Ar Ligado' : 'Ar Desligado'}
+                </span>
+              </div>
+            </div>
+
+            {/* Separador vertical */}
+            <div className="h-6 sm:h-7 w-[1px] bg-white/20" aria-hidden="true" />
+
+            {/* Botão de Ligar / Desligar */}
+            <button
+              type="button"
+              onClick={() => {
+                const el = sectionRef.current;
+                if (!el) return;
+                if (pct < 0.68) {
+                  // Ligar o ar condicionado (scroll para 21h / noite climatizada)
+                  const targetY = el.offsetTop + (el.offsetHeight - window.innerHeight) * 0.78;
+                  window.scrollTo({ top: targetY, behavior: 'smooth' });
+                } else {
+                  // Desligar o ar condicionado (scroll para 15h / dia)
+                  window.scrollTo({ top: el.offsetTop, behavior: 'smooth' });
+                }
               }}
-            />
-            <span>
-              {pct >= 0.68 ? 'Ar Ligado (18°C Fresco)' : 'Ar Desligado (32°C Calor)'}
-            </span>
-            <span className="hidden sm:inline-block opacity-75 text-[0.7rem] font-normal underline underline-offset-2 ml-0.5">
-              {pct >= 0.68 ? '• ver dia ☀️' : '• ligar ar ❄️'}
-            </span>
-          </button>
+              className="flex items-center gap-1.5 sm:gap-2 rounded-xl px-2.5 sm:px-3.5 py-1.5 sm:py-2 text-[0.72rem] sm:text-[0.8rem] font-bold tracking-wide transition-all duration-200 hover:scale-[1.04] active:scale-95 shadow-md cursor-pointer"
+              style={{
+                background:
+                  pct >= 0.68
+                    ? 'rgba(255, 255, 255, 0.12)'
+                    : 'linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%)',
+                color: '#ffffff',
+                border:
+                  pct >= 0.68
+                    ? '1px solid rgba(255, 255, 255, 0.3)'
+                    : '1px solid rgba(56, 189, 248, 0.6)',
+                boxShadow:
+                  pct >= 0.68
+                    ? '0 0 12px rgba(255, 255, 255, 0.1)'
+                    : '0 0 18px rgba(14, 165, 233, 0.6)',
+              }}
+              title={pct >= 0.68 ? 'Clique para desligar o ar condicionado' : 'Clique para ligar o ar condicionado'}
+            >
+              <Power
+                className={`h-3.5 w-3.5 sm:h-4 sm:w-4 ${
+                  pct >= 0.68 ? 'text-amber-400' : 'text-white animate-pulse'
+                }`}
+              />
+              <span>
+                {pct >= 0.68 ? 'DESLIGAR' : 'LIGAR AR'}
+              </span>
+            </button>
+          </div>
 
           <a
             href={whatsappUrl('Olá Romerio! Vim pelo site e queria um orçamento.')}
