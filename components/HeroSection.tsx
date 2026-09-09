@@ -163,9 +163,25 @@ export default function HeroSection() {
           </div>
 
           {/* Realistic AC Unit Visualizer Housing */}
-          <div className="my-8 p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-[#031124] via-[#051a38] to-[#031124] border border-sky-500/30 relative shadow-inner overflow-hidden">
+          <div className="my-8 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-[#031124] via-[#051a38] to-[#031124] border border-sky-500/35 relative shadow-2xl overflow-hidden">
             
-            {/* AC Unit Front Panel & Air Outlet Grill */}
+            {/* Embedded 3D Render Image of the AC Unit */}
+            <div className="relative w-full h-48 sm:h-64 rounded-2xl overflow-hidden mb-6 border border-sky-400/30 shadow-inner group">
+              <img
+                src="/images/ac-unit-3d.jpg"
+                alt="Ar Condicionado Split 3D Inverter com display LED 18°C"
+                className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#031124] via-transparent to-transparent pointer-events-none" />
+              
+              {/* Badge overlay on 3D image */}
+              <div className="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-[#020914]/80 backdrop-blur-md border border-sky-400/30 text-[10px] font-mono text-sky-300 font-bold flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span>UNIDADE EVAPORADORA 3D • DISPLAY 18°C</span>
+              </div>
+            </div>
+
+            {/* AC Unit Telemetry & Controls */}
             <div className="flex flex-col sm:flex-row items-center justify-between gap-6 relative z-10">
               
               {/* Left: Unit Branding & Features */}
