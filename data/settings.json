@@ -4,7 +4,7 @@
   "ownerName": "Romero Mota",
   "phone": "+55 11 94732-1510",
   "whatsapp": "5511947321510",
-  "email": "contato@motaarcondicionado.com.br",
+  "email": "romerio.mota@gmail.com",
   "address": "São Paulo - SP e Grande São Paulo",
   "city": "São Paulo",
   "state": "SP",
@@ -23,7 +23,7 @@
   ],
   "adminPasswordHash": "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",
   "adminPasswordPlainDefault": "admin123",
-  "adminEmail": "romero@motaarcondicionado.com.br",
+  "adminEmail": "romerio.mota@gmail.com",
   "smtp": {
     "enabled": false,
     "host": "smtp.gmail.com",
@@ -31,8 +31,8 @@
     "secure": false,
     "user": "",
     "pass": "",
-    "fromEmail": "notificacoes@motaarcondicionado.com.br",
+    "fromEmail": "romerio.mota@gmail.com",
     "fromName": "MOTA Climatização",
-    "notifyEmail": "romeromota1510@gmail.com"
+    "notifyEmail": "romerio.mota@gmail.com"
   }
 }

@@ -2,13 +2,27 @@ import fs from 'fs';
 import path from 'path';
 import { SiteSettings, Lead } from './types';
 
-const dataDir = path.join(process.cwd(), 'data');
+const isVercel = Boolean(process.env.VERCEL);
+const dataDir = isVercel ? path.join('/tmp', 'data') : path.join(process.cwd(), 'data');
 const settingsFile = path.join(dataDir, 'settings.json');
 const leadsFile = path.join(dataDir, 'leads.json');
 
 function ensureDataDir() {
   if (!fs.existsSync(dataDir)) {
     fs.mkdirSync(dataDir, { recursive: true });
+  }
+  if (isVercel) {
+    const origDataDir = path.join(process.cwd(), 'data');
+    if (fs.existsSync(origDataDir)) {
+      const origSettings = path.join(origDataDir, 'settings.json');
+      const origLeads = path.join(origDataDir, 'leads.json');
+      if (fs.existsSync(origSettings) && !fs.existsSync(settingsFile)) {
+        try { fs.copyFileSync(origSettings, settingsFile); } catch (e) {}
+      }
+      if (fs.existsSync(origLeads) && !fs.existsSync(leadsFile)) {
+        try { fs.copyFileSync(origLeads, leadsFile); } catch (e) {}
+      }
+    }
   }
 }
 
@@ -21,7 +35,7 @@ export function getSettings(): SiteSettings {
       ownerName: "Romero Mota",
       phone: "+55 11 94732-1510",
       whatsapp: "5511947321510",
-      email: "contato@motaarcondicionado.com.br",
+      email: "romerio.mota@gmail.com",
       address: "São Paulo - SP e Grande São Paulo",
       city: "São Paulo",
       state: "SP",
@@ -39,7 +53,7 @@ export function getSettings(): SiteSettings {
         "Guarulhos e Osasco"
       ],
       adminPasswordHash: "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",
-      adminEmail: "romero@motaarcondicionado.com.br",
+      adminEmail: "romerio.mota@gmail.com",
       smtp: {
         enabled: false,
         host: "smtp.gmail.com",
@@ -47,9 +61,9 @@ export function getSettings(): SiteSettings {
         secure: false,
         user: "",
         pass: "",
-        fromEmail: "notificacoes@motaarcondicionado.com.br",
+        fromEmail: "romerio.mota@gmail.com",
         fromName: "MOTA Climatização",
-        notifyEmail: "romeromota1510@gmail.com"
+        notifyEmail: "romerio.mota@gmail.com"
       }
     };
     fs.writeFileSync(settingsFile, JSON.stringify(defaultSettings, null, 2), 'utf-8');

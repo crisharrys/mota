@@ -33,11 +33,11 @@ export default function Navbar() {
             </a>
             <span className="hidden md:inline">•</span>
             <a
-              href="mailto:contato@motaarcondicionado.com.br"
+              href="mailto:romerio.mota@gmail.com"
               className="hidden md:flex items-center gap-1.5 hover:underline"
             >
               <Mail className="w-3.5 h-3.5" />
-              <span>contato@motaarcondicionado.com.br</span>
+              <span>romerio.mota@gmail.com</span>
             </a>
           </div>
 
