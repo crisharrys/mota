@@ -1,8 +1,10 @@
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
-import ServicesGrid from '@/components/ServicesGrid';
-import BtuCalculator from '@/components/BtuCalculator';
+import InstallationBlueprint from '@/components/InstallationBlueprint';
+import BeforeAfterCleaning from '@/components/BeforeAfterCleaning';
+import BtuCalculatorPro from '@/components/BtuCalculatorPro';
+import ServicesBento from '@/components/ServicesBento';
 import LeadCaptureForm from '@/components/LeadCaptureForm';
 import FloatingWhatsApp from '@/components/FloatingWhatsApp';
 import Footer from '@/components/Footer';
@@ -13,22 +15,28 @@ export default function HomePage() {
       {/* Sleek Glass Navbar */}
       <Navbar />
 
-      {/* Creative & Impactful Hero */}
+      {/* Futuristic Smart Climate Console Hero */}
       <HeroSection />
 
-      {/* 3 Core Services: Venda, Instalação, Manutenção */}
-      <ServicesGrid />
+      {/* Raio-X Técnico: Blueprint da Instalação Perfeita */}
+      <InstallationBlueprint />
 
-      {/* Minimalist BTU Calculator */}
-      <BtuCalculator />
+      {/* Antes & Depois: Higienização Química Hospitalar */}
+      <BeforeAfterCleaning />
 
-      {/* Clean Lead Capture Form */}
+      {/* Simulador de Ambientes & Economia de Energia Pro */}
+      <BtuCalculatorPro />
+
+      {/* Bento Grid de Serviços & Marcas */}
+      <ServicesBento />
+
+      {/* Captura de Leads com Confetti */}
       <LeadCaptureForm />
 
-      {/* Floating WhatsApp Action */}
+      {/* Botão Flutuante com Pulso WhatsApp */}
       <FloatingWhatsApp />
 
-      {/* Minimalist Footer */}
+      {/* Rodapé Minimalista */}
       <Footer />
     </main>
   );
