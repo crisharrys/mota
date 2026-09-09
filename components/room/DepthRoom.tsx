@@ -55,8 +55,10 @@ const frag = /* glsl */ `
 
     // Iluminação noturna aconchegante: spots de teto e abajur
     float warmPool = smoothstep(0.28, 0.95, depth) * 0.52;
-    // Fluxo do ar condicionado: brisa fresca sutil descendo do topo
-    float coolFlow = smoothstep(0.15, 0.85, 1.0 - vUv.y) * 0.25;
+    // Fluxo do ar condicionado: brisa fresca emanando do split no alto à esquerda (UV ~ 0.21, 0.73)
+    float acDist = distance(uv, vec2(0.21, 0.73));
+    float acBreeze = smoothstep(0.48, 0.04, acDist) * 0.32;
+    float coolFlow = smoothstep(0.15, 0.85, 1.0 - vUv.y) * 0.16 + acBreeze;
     night += uWarm * warmPool + uCool * coolFlow;
 
     vec3 color = mix(base.rgb, night, uNight);
