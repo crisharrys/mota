@@ -27,8 +27,12 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "sans-serif"],
-        display: ["var(--font-outfit)", "sans-serif"],
+        sans: ["var(--font-archivo)", "system-ui", "sans-serif"],
+        display: ["var(--font-archivo)", "system-ui", "sans-serif"],
+        mono: ["var(--font-chivo-mono)", "ui-monospace", "monospace"],
+      },
+      screens: {
+        xs: "400px",
       },
       boxShadow: {
         'glow-cyan': '0 0 35px -5px rgba(56, 189, 248, 0.3)',

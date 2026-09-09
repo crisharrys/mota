@@ -190,7 +190,7 @@ export default function AdminDashboardPage() {
             <Logo size="sm" showSubtitle={false} />
             <div className="border-l border-sky-500/20 pl-4">
               <span className="text-sm font-bold text-white">Central Administrativa</span>
-              <p className="text-[11px] text-sky-400">Romero Mota • Mota Ar-Condicionado</p>
+              <p className="text-[11px] text-sky-400">Romerio Mota • Mota Ar-Condicionado</p>
             </div>
           </div>
 
@@ -326,7 +326,7 @@ export default function AdminDashboardPage() {
                 {filteredLeads.map((lead) => {
                   const rawPhone = lead.phone.replace(/\D/g, '');
                   const waLink = `https://wa.me/55${rawPhone}?text=${encodeURIComponent(
-                    `Olá ${lead.name}! Aqui é o Romero Mota da Mota Serviços de Ar-Condicionado. Recebi seu pedido de orçamento para ${lead.serviceType}.`
+                    `Olá ${lead.name}! Aqui é o Romerio Mota da Mota Serviços de Ar-Condicionado. Recebi seu pedido de orçamento para ${lead.serviceType}.`
                   )}`;
 
                   return (

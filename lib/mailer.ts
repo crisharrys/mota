@@ -2,13 +2,49 @@ import nodemailer from 'nodemailer';
 import { getSettings } from './storage';
 import { Lead } from './types';
 
-export async function sendLeadNotificationEmail(lead: Lead): Promise<{ success: boolean; message?: string }> {
+/*
+  O e-mail usa fontes web-safe de propósito: cliente de e-mail não carrega
+  webfont de forma confiável. O que viaja do site para cá é o vocabulário do
+  painel — legenda serigrafada, fio de 1px, âmbar como único acento.
+*/
+
+const PANEL = '#f3eee4';
+const GROUND = '#e3cfa8';
+const EDGE = '#c3b79f';
+const INK = '#17212e';
+const INK2 = '#454f5b';
+const INK3 = '#575f6b';
+const ACCENT = '#c2410c';
+
+function esc(v: unknown): string {
+  return String(v ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function row(label: string, value: string, isHtml = false): string {
+  return `
+    <tr>
+      <td style="padding:11px 0;border-bottom:1px solid ${EDGE};vertical-align:top;width:34%;">
+        <span style="font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:bold;letter-spacing:1.6px;text-transform:uppercase;color:${INK3};">${esc(label)}</span>
+      </td>
+      <td style="padding:11px 0;border-bottom:1px solid ${EDGE};vertical-align:top;">
+        <span style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:${INK};">${isHtml ? value : esc(value)}</span>
+      </td>
+    </tr>`;
+}
+
+export async function sendLeadNotificationEmail(
+  lead: Lead
+): Promise<{ success: boolean; message?: string }> {
   try {
     const settings = getSettings();
     const { smtp } = settings;
 
     if (!smtp || !smtp.enabled || !smtp.host || !smtp.user || !smtp.pass) {
-      // SMTP not enabled or incomplete
       return { success: false, message: 'SMTP desabilitado ou não configurado.' };
     }
 
@@ -16,100 +52,133 @@ export async function sendLeadNotificationEmail(lead: Lead): Promise<{ success: 
       host: smtp.host,
       port: Number(smtp.port) || 587,
       secure: Boolean(smtp.secure),
-      auth: {
-        user: smtp.user,
-        pass: smtp.pass,
-      },
+      auth: { user: smtp.user, pass: smtp.pass },
     });
 
-    const subject = `❄️ Novo Lead Recebido: ${lead.name} - ${lead.serviceType}`;
+    const digits = String(lead.phone).replace(/\D/g, '');
+    const waHref = `https://wa.me/55${digits}?text=${encodeURIComponent(
+      `Olá ${lead.name}, tudo bem? Aqui é o Romerio da MOTA Ar-Condicionado. Recebi seu pedido de orçamento para ${lead.serviceType}.`
+    )}`;
+
+    const subject = `Novo lead: ${lead.name} — ${lead.serviceType}`;
+
     const html = `
-      <div style="font-family: Arial, sans-serif; background-color: #041326; color: #f8fafc; padding: 25px; border-radius: 12px; max-width: 600px; margin: 0 auto; border: 1px solid #38bdf8;">
-        <div style="text-align: center; border-bottom: 1px solid rgba(56,189,248,0.2); padding-bottom: 15px; margin-bottom: 20px;">
-          <h1 style="color: #38bdf8; margin: 0; font-size: 24px; text-transform: uppercase; letter-spacing: 1px;">Mota Serviços de Ar-Condicionado</h1>
-          <p style="color: #94a3b8; margin: 5px 0 0 0; font-size: 14px;">Notificação de Novo Contato no Site</p>
-        </div>
-
-        <div style="background: rgba(8, 33, 66, 0.7); padding: 20px; border-radius: 8px; border: 1px solid rgba(56,189,248,0.15);">
-          <p style="margin: 0 0 10px 0;"><strong style="color: #7dd3fc;">Nome do Cliente:</strong> ${lead.name}</p>
-          <p style="margin: 0 0 10px 0;"><strong style="color: #7dd3fc;">WhatsApp / Telefone:</strong> <a href="https://wa.me/55${lead.phone.replace(/\D/g, '')}" style="color: #25D366; text-decoration: none; font-weight: bold;">${lead.phone} (Chamar no WhatsApp)</a></p>
-          ${lead.email ? `<p style="margin: 0 0 10px 0;"><strong style="color: #7dd3fc;">E-mail:</strong> ${lead.email}</p>` : ''}
-          <p style="margin: 0 0 10px 0;"><strong style="color: #7dd3fc;">Serviço Desejado:</strong> ${lead.serviceType}</p>
-          ${lead.roomSize ? `<p style="margin: 0 0 10px 0;"><strong style="color: #7dd3fc;">Ambiente / Metragem:</strong> ${lead.roomSize}</p>` : ''}
-          ${lead.preferredTime ? `<p style="margin: 0 0 10px 0;"><strong style="color: #7dd3fc;">Horário Preferencial:</strong> ${lead.preferredTime}</p>` : ''}
-          
-          <div style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed rgba(56,189,248,0.2);">
-            <strong style="color: #7dd3fc;">Mensagem / Detalhes:</strong>
-            <p style="background: #020914; padding: 12px; border-radius: 6px; color: #e2e8f0; margin-top: 8px; white-space: pre-wrap;">${lead.message || 'Sem mensagem adicional.'}</p>
-          </div>
-        </div>
-
-        <div style="text-align: center; margin-top: 25px;">
-          <a href="https://wa.me/55${lead.phone.replace(/\D/g, '')}?text=${encodeURIComponent(`Olá ${lead.name}, tudo bem? Aqui é o Romero da Mota Ar-Condicionado! Recebi seu pedido de orçamento para ${lead.serviceType}.`)}" style="background-color: #25D366; color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: bold; display: inline-block;">
-            Responder no WhatsApp
-          </a>
-        </div>
-
-        <div style="text-align: center; margin-top: 25px; font-size: 12px; color: #64748b;">
-          Enviado automaticamente pelo site oficial Mota Serviços de Ar-Condicionado.
-        </div>
-      </div>
-    `;
+<div style="background:${GROUND};padding:28px 16px;">
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width:560px;margin:0 auto;background:${PANEL};border:1px solid ${EDGE};border-radius:3px;">
+    <tr>
+      <td style="padding:18px 24px 14px;border-bottom:1px solid ${EDGE};">
+        <span style="font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;color:${INK2};">MOTA · Novo contato pelo site</span>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:22px 24px 6px;">
+        <div style="font-family:Arial,Helvetica,sans-serif;font-size:24px;font-weight:bold;color:${INK};line-height:1.2;">${esc(lead.name)}</div>
+        <div style="font-family:Arial,Helvetica,sans-serif;font-size:13px;color:${INK2};margin-top:6px;">${esc(lead.serviceType)}</div>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:14px 24px 4px;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+          ${row('WhatsApp', `<a href="${waHref}" style="color:${ACCENT};font-weight:bold;text-decoration:none;">${esc(lead.phone)}</a>`, true)}
+          ${lead.email ? row('E-mail', lead.email) : ''}
+          ${lead.roomSize ? row('Ambiente', lead.roomSize) : ''}
+          ${lead.preferredTime ? row('Horário', lead.preferredTime) : ''}
+          ${row('Recebido', new Date(lead.createdAt).toLocaleString('pt-BR'))}
+        </table>
+      </td>
+    </tr>
+    ${
+      lead.message
+        ? `<tr>
+      <td style="padding:16px 24px 0;">
+        <span style="font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:bold;letter-spacing:1.6px;text-transform:uppercase;color:${INK3};">Mensagem</span>
+        <div style="margin-top:8px;padding:14px;background:#ded5c1;border:1px solid ${EDGE};border-radius:2px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.55;color:${INK};white-space:pre-wrap;">${esc(lead.message)}</div>
+      </td>
+    </tr>`
+        : ''
+    }
+    <tr>
+      <td style="padding:22px 24px 26px;">
+        <a href="${waHref}" style="display:inline-block;background:${ACCENT};color:#fff8f2;font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:bold;letter-spacing:1.4px;text-transform:uppercase;padding:14px 24px;border-radius:3px;text-decoration:none;">Responder no WhatsApp</a>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:12px 24px;border-top:1px solid ${EDGE};">
+        <span style="font-family:Arial,Helvetica,sans-serif;font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:${INK3};">Enviado pelo site MOTA Serviços de Ar-Condicionado</span>
+      </td>
+    </tr>
+  </table>
+</div>`;
 
     const info = await transporter.sendMail({
-      from: `"${smtp.fromName || 'Mota Climatização'}" <${smtp.fromEmail || smtp.user}>`,
+      from: `"${smtp.fromName || 'MOTA Ar-Condicionado'}" <${smtp.fromEmail || smtp.user}>`,
       to: smtp.notifyEmail || settings.email,
       subject,
       html,
     });
 
-    return { success: true, message: `E-mail enviado com sucesso (ID: ${info.messageId})` };
+    return { success: true, message: `E-mail enviado (ID: ${info.messageId})` };
   } catch (error: any) {
     console.error('Erro ao enviar e-mail via SMTP:', error);
-    return { success: false, message: error.message || 'Erro desconhecido ao enviar e-mail' };
+    return {
+      success: false,
+      message: error.message || 'Erro desconhecido ao enviar e-mail',
+    };
   }
 }
 
-export async function testSmtpConnection(customConfig?: any): Promise<{ success: boolean; message: string }> {
+export async function testSmtpConnection(
+  customConfig?: any
+): Promise<{ success: boolean; message: string }> {
   try {
     const settings = getSettings();
     const config = customConfig || settings.smtp;
 
     if (!config.host || !config.user || !config.pass) {
-      return { success: false, message: 'Dados de SMTP incompletos (host, usuário ou senha ausentes).' };
+      return {
+        success: false,
+        message: 'Dados de SMTP incompletos (host, usuário ou senha ausentes).',
+      };
     }
 
     const transporter = nodemailer.createTransport({
       host: config.host,
       port: Number(config.port) || 587,
       secure: Boolean(config.secure),
-      auth: {
-        user: config.user,
-        pass: config.pass,
-      },
+      auth: { user: config.user, pass: config.pass },
     });
 
-    // Verify connection configuration
     await transporter.verify();
 
-    // Optionally send test email
     if (config.notifyEmail) {
       await transporter.sendMail({
-        from: `"${config.fromName || 'Mota Teste'}" <${config.fromEmail || config.user}>`,
+        from: `"${config.fromName || 'MOTA Ar-Condicionado'}" <${config.fromEmail || config.user}>`,
         to: config.notifyEmail,
-        subject: '❄️ Teste de Conexão SMTP - Mota Ar-Condicionado',
+        subject: 'Teste de conexão SMTP — MOTA Ar-Condicionado',
         html: `
-          <div style="font-family: Arial, sans-serif; padding: 20px; background: #082142; color: white; border-radius: 8px;">
-            <h2 style="color: #38bdf8;">Conexão SMTP Configurada com Sucesso! ❄️</h2>
-            <p>Seu servidor SMTP está comunicando perfeitamente com a plataforma Mota Ar-Condicionado.</p>
-            <p>Data do teste: ${new Date().toLocaleString('pt-BR')}</p>
-          </div>
-        `,
+<div style="background:${GROUND};padding:28px 16px;">
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width:520px;margin:0 auto;background:${PANEL};border:1px solid ${EDGE};border-radius:3px;">
+    <tr><td style="padding:18px 24px 14px;border-bottom:1px solid ${EDGE};">
+      <span style="font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;color:${INK2};">MOTA · Teste de SMTP</span>
+    </td></tr>
+    <tr><td style="padding:22px 24px 24px;">
+      <div style="font-family:Arial,Helvetica,sans-serif;font-size:19px;font-weight:bold;color:${INK};">Conexão funcionando.</div>
+      <div style="font-family:Arial,Helvetica,sans-serif;font-size:14px;color:${INK2};margin-top:8px;line-height:1.55;">O servidor de e-mail está respondendo. Os leads do site chegam neste endereço.</div>
+      <div style="font-family:Arial,Helvetica,sans-serif;font-size:11px;color:${INK3};margin-top:14px;">${new Date().toLocaleString('pt-BR')}</div>
+    </td></tr>
+  </table>
+</div>`,
       });
     }
 
-    return { success: true, message: 'Conexão e disparo de e-mail efetuados com sucesso!' };
+    return {
+      success: true,
+      message: 'Conexão e disparo de e-mail efetuados com sucesso!',
+    };
   } catch (error: any) {
-    return { success: false, message: error.message || 'Falha ao autenticar no servidor SMTP.' };
+    return {
+      success: false,
+      message: error.message || 'Falha ao autenticar no servidor SMTP.',
+    };
   }
 }

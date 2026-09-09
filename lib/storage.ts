@@ -31,8 +31,8 @@ export function getSettings(): SiteSettings {
   if (!fs.existsSync(settingsFile)) {
     const defaultSettings: SiteSettings = {
       companyName: "MOTA Serviços de Ar-Condicionado",
-      legalName: "Romero Mota Climatização & Soluções Térmicas",
-      ownerName: "Romero Mota",
+      legalName: "Romerio Mota Climatização & Soluções Térmicas",
+      ownerName: "Romerio Mota",
       phone: "+55 11 94732-1510",
       whatsapp: "5511947321510",
       email: "romerio.mota@gmail.com",

@@ -1,4 +1,4 @@
-# ❄️ MOTA Serviços de Ar-Condicionado (Romero Mota)
+# ❄️ MOTA Serviços de Ar-Condicionado (Romerio Mota)
 
 > Website institucional e comercial de alta conversão para a **Mota Serviços de Ar-Condicionado**, desenvolvido em **Next.js 14 Standalone**, **Tailwind CSS**, **Framer Motion**, física interativa de cristais de gelo via Canvas, captura de leads com suporte a SMTP e **Painel Administrativo Completo**.
 
@@ -16,7 +16,7 @@
   - **Calculadora Inteligente de BTUs**: Simulação de carga térmica com botão direto para orçamento no WhatsApp.
   - Catálogo de modelos e marcas atendidas (Daikin, Fujitsu, LG, Samsung, Gree, Midea, Elgin).
   - Formulário de captura de leads com feedback imediato, confetes e integração com API.
-  - Botão flutuante de WhatsApp com balão de boas-vindas do Romero Mota.
+  - Botão flutuante de WhatsApp com balão de boas-vindas do Romerio Mota.
 - **🔐 Painel Administrativo (`/admin`)**:
   - Login seguro via cookie HTTP-only (senha inicial: `admin123`).
   - Gestão de leads com status, filtros, botão para responder no WhatsApp e exportação em `.CSV`.

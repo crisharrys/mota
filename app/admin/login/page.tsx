@@ -67,7 +67,7 @@ export default function AdminLoginPage() {
               Painel Administrativo
             </h1>
             <p className="text-xs text-slate-400 mt-1">
-              Acesso restrito para Romero Mota & Gestão do Sistema
+              Acesso restrito para Romerio Mota & Gestão do Sistema
             </p>
           </div>
 

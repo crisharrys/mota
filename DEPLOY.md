@@ -1,6 +1,6 @@
 # 🚀 Guia de Implantação em VPS: Mota Serviços de Ar-Condicionado
 
-Este guia detalha o passo a passo completo para colocar o site e sistema da **Mota Serviços de Ar-Condicionado (Romero Mota)** no ar em qualquer servidor VPS (Ubuntu/Debian) com alta performance, segurança e certificado SSL grátis.
+Este guia detalha o passo a passo completo para colocar o site e sistema da **Mota Serviços de Ar-Condicionado (Romerio Mota)** no ar em qualquer servidor VPS (Ubuntu/Debian) com alta performance, segurança e certificado SSL grátis.
 
 ---
 

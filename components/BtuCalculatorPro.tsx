@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { motion } from 'framer-motion';
 import { 
   Calculator, 
   Sun, 
@@ -15,6 +14,7 @@ import {
   Sparkles,
   Zap
 } from 'lucide-react';
+import { site, whatsappUrl } from '@/lib/site';
 
 interface RoomType {
   id: string;
@@ -101,7 +101,7 @@ export default function BtuCalculatorPro() {
             Simulador de Ambientes & <span className="text-gradient-cyan">Economia</span>
           </h2>
           <p className="mt-3 text-slate-300 text-sm sm:text-base font-light">
-            Dimensione a capacidade correta e veja quanto você economiza na conta de luz ao trocar aparelhos velhos por sistemas Inverter instalados por Romero Mota.
+            Dimensione a capacidade correta e veja quanto você economiza na conta de luz ao trocar aparelhos velhos por sistemas Inverter instalados por Romerio Mota.
           </p>
         </div>
 
@@ -263,11 +263,11 @@ export default function BtuCalculatorPro() {
           {/* Action Button */}
           <div className="text-center">
             <a
-              href={`https://wa.me/5511947321510?text=${encodeURIComponent(
-                `Olá Romero! Fiz a simulação no site para ${selectedRoom.name} de ${area}m² com sol ${
+              href={whatsappUrl(
+                `Olá Romerio! Fiz a simulação no site para ${selectedRoom.name} de ${area}m² com sol ${
                   sunlight === 'intense' ? 'intenso' : 'suave'
                 }. O sistema recomendou ${calculation.btuLabel} (${calculation.modelType}). Gostaria de um orçamento!`
-              )}`}
+              )}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-white font-bold text-sm shadow-[0_0_25px_rgba(16,185,129,0.35)] transition-all hover:scale-105"
