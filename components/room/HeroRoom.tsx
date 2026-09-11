@@ -308,7 +308,9 @@ export default function HeroRoom() {
             href={whatsappUrl('Olá Romerio! Vim pelo site e queria um orçamento.')}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-full px-5 py-2.5 text-[0.8rem] font-semibold tracking-[0.01em] transition-transform duration-200 hover:scale-[1.03] sm:px-6 sm:py-3 sm:text-[0.9rem]"
+            // No celular o placar ocupa o topo e este botão caía 81px para fora
+            // da tela; lá o "Falar agora" flutuante já cumpre o papel.
+            className="hidden rounded-full px-5 py-2.5 text-[0.8rem] font-semibold tracking-[0.01em] transition-transform duration-200 hover:scale-[1.03] sm:inline-block sm:px-6 sm:py-3 sm:text-[0.9rem]"
             style={{
               background: night ? '#38bdf8' : '#0f2b45',
               color: night ? '#04121f' : '#f5faff',
